@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AI Career Assistant</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>AI Career Assistant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resume-analyzer.html">Resume Analyzer</a></li>
+                <li><a href="mock-interview.html">Mock Interview</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section style="background: var(--light-gray); min-height: calc(100vh - 200px);">
+        <div class="container">
+            <h1 class="section-title">Your Dashboard</h1>
+
+            <!-- Statistics Cards -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                <div class="card" style="text-align: center;">
+                    <i class="fas fa-file-alt" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                    <h3 style="font-size: 2rem; margin-bottom: 0.5rem;" id="totalResumes">0</h3>
+                    <p style="color: var(--gray);">Resumes Analyzed</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <i class="fas fa-microphone" style="font-size: 3rem; color: var(--secondary-color); margin-bottom: 1rem;"></i>
+                    <h3 style="font-size: 2rem; margin-bottom: 0.5rem;" id="totalInterviews">0</h3>
+                    <p style="color: var(--gray);">Interviews Completed</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <i class="fas fa-chart-line" style="font-size: 3rem; color: var(--warning-color); margin-bottom: 1rem;"></i>
+                    <h3 style="font-size: 2rem; margin-bottom: 0.5rem;" id="avgResumeScore">--</h3>
+                    <p style="color: var(--gray);">Avg Resume Score</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <i class="fas fa-star" style="font-size: 3rem; color: var(--danger-color); margin-bottom: 1rem;"></i>
+                    <h3 style="font-size: 2rem; margin-bottom: 0.5rem;" id="avgInterviewScore">--</h3>
+                    <p style="color: var(--gray);">Avg Interview Score</p>
+                </div>
+            </div>
+
+            <!-- Recent Resumes -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-history"></i> Recent Resume Analyses</h2>
+                <div id="recentResumes"></div>
+            </div>
+
+            <!-- Recent Interviews -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-history"></i> Recent Mock Interviews</h2>
+                <div id="recentInterviews"></div>
+            </div>
+
+            <!-- Clear Data Button -->
+            <div style="text-align: center; margin: 2rem 0;">
+                <button class="btn btn-secondary" onclick="clearAllData()" style="background: var(--danger-color); color: white;">
+                    <i class="fas fa-trash"></i> Clear All Data
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 AI Career Assistant. Built with ❤️ for job seekers</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

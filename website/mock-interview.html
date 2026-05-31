@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Interview - AI Career Assistant</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>AI Career Assistant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resume-analyzer.html">Resume Analyzer</a></li>
+                <li><a href="mock-interview.html" class="active">Mock Interview</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section style="background: var(--light-gray); min-height: calc(100vh - 200px);">
+        <div class="container">
+            <h1 class="section-title">Mock Interview</h1>
+
+            <!-- Setup Section -->
+            <div id="setupSection" class="card">
+                <h2 class="card-title"><i class="fas fa-cog"></i> Interview Setup</h2>
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Select Job Role</label>
+                        <select id="jobRole" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray); border-radius: 8px; font-size: 1rem;">
+                            <option value="software_engineer">Software Engineer</option>
+                            <option value="frontend_developer">Frontend Developer</option>
+                            <option value="full_stack_developer">Full Stack Developer</option>
+                            <option value="devops_engineer">DevOps Engineer</option>
+                            <option value="cybersecurity_analyst">Cybersecurity Analyst</option>
+                            <option value="cloud_engineer">Cloud Engineer</option>
+                            <option value="data_scientist">Data Scientist</option>
+                            <option value="data_engineer">Data Engineer</option>
+                            <option value="mobile_developer">Mobile Developer</option>
+                            <option value="network_engineer">Network Engineer</option>
+                            <option value="qa_engineer">QA Engineer</option>
+                            <option value="blockchain_developer">Blockchain Developer</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Number of Questions</label>
+                        <input type="number" id="questionCount" value="5" min="3" max="10" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray); border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <button class="btn btn-primary" onclick="startInterview()" style="width: 100%;">
+                        <i class="fas fa-play"></i> Start Interview
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interview Section -->
+            <div id="interviewSection" class="hidden">
+                <!-- Progress -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                        <span><i class="fas fa-clock"></i> <span id="timer">00:00</span></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <h2 class="card-title" style="margin: 0;"><i class="fas fa-question-circle"></i> Question</h2>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <button class="btn" onclick="speakQuestion()" style="padding: 0.5rem 1rem; background: var(--secondary-color); color: white;">
+                                <i class="fas fa-volume-up"></i> Hear Question
+                            </button>
+                            <span id="difficulty" class="skill-tag"></span>
+                        </div>
+                    </div>
+                    <p id="questionText" style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 2rem;"></p>
+                    
+                    <!-- Voice Recording Section -->
+                    <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <h3 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-microphone"></i> Voice Answer
+                        </h3>
+                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                            <button id="startRecordBtn" class="btn" onclick="startRecording()" style="background: var(--danger-color); color: white;">
+                                <i class="fas fa-microphone"></i> Start Recording
+                            </button>
+                            <button id="stopRecordBtn" class="btn hidden" onclick="stopRecording()" style="background: var(--dark); color: white;">
+                                <i class="fas fa-stop"></i> Stop Recording
+                            </button>
+                            <span id="recordingStatus" style="color: var(--gray);"></span>
+                        </div>
+                        <div id="recordingIndicator" class="hidden" style="display: flex; align-items: center; gap: 0.5rem; color: var(--danger-color); font-weight: 600;">
+                            <span style="width: 12px; height: 12px; background: var(--danger-color); border-radius: 50%; animation: pulse 1.5s infinite;"></span>
+                            Recording... Speak your answer now
+                        </div>
+                    </div>
+
+                    <!-- Text Answer Section -->
+                    <div style="margin-bottom: 1rem;">
+                        <h3 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-keyboard"></i> Or Type Your Answer
+                        </h3>
+                        <textarea id="answerInput" placeholder="Type your answer here or use voice recording above..." style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid var(--gray); border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn btn-primary" onclick="submitAnswer()" style="flex: 1;">
+                            <i class="fas fa-check"></i> Submit Answer
+                        </button>
+                        <button class="btn btn-secondary" onclick="skipQuestion()" style="flex: 0;">
+                            <i class="fas fa-forward"></i> Skip
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="hidden">
+                <!-- Overall Performance -->
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-trophy"></i> Interview Performance</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center;">
+                        <div>
+                            <div class="score-circle score-high" style="width: 120px; height: 120px; margin: 1rem auto;">
+                                <span id="overallScore">0</span>%
+                            </div>
+                            <p style="font-weight: 600;">Overall Score</p>
+                        </div>
+                        <div>
+                            <div class="score-circle score-medium" style="width: 120px; height: 120px; margin: 1rem auto;">
+                                <span id="technicalScore">0</span>%
+                            </div>
+                            <p style="font-weight: 600;">Technical Score</p>
+                        </div>
+                        <div>
+                            <div class="score-circle" style="width: 120px; height: 120px; margin: 1rem auto; background: var(--primary-color);">
+                                <span id="communicationScore">0</span>%
+                            </div>
+                            <p style="font-weight: 600;">Communication</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Feedback -->
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-comments"></i> Detailed Feedback</h2>
+                    <div id="detailedFeedback"></div>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-lightbulb"></i> Recommendations</h2>
+                    <div id="interviewRecommendations"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="text-align: center; margin: 2rem 0;">
+                    <button class="btn btn-primary" onclick="location.reload()">
+                        <i class="fas fa-redo"></i> Start New Interview
+                    </button>
+                    <button class="btn btn-success" onclick="window.location.href='dashboard.html'">
+                        <i class="fas fa-chart-bar"></i> View Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 AI Career Assistant. Built with ❤️ for job seekers</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/mock-interview.js"></script>
+</body>
+</html>
